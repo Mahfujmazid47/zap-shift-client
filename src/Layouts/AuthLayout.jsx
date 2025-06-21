@@ -13,7 +13,7 @@ const AuthLayout = () => {
                         <div>
                             <ProFastLogo></ProFastLogo>
                         </div>
-                        <div className='min-h-screen flex justify-center items-center py-10'>
+                        <div className='min-h-screen flex justify-center items-center md:py-10'>
                             <Suspense fallback={<p>Loading ...</p>}>
                                 <Outlet></Outlet>
                             </Suspense>

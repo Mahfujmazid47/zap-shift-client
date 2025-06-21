@@ -5,7 +5,9 @@ const Footer = () => {
     return (
         <footer className="footer footer-horizontal footer-center bg-neutral text-neutral-content p-10 rounded-t-2xl">
             <aside>
-                <ProFastLogo />
+                <div>
+                    <ProFastLogo />
+                </div>
                 <p className="font-bold">
                     ACME Industries Ltd.
                     <br />

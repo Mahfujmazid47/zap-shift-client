@@ -1,13 +1,33 @@
 import React from 'react';
 import { NavLink } from 'react-router';
 import ProFastLogo from '../ProFastLogo/ProFastLogo';
+import useAuth from '../../Hooks/useAuth';
+import Swal from 'sweetalert2';
 
 const Navbar = () => {
+    const { user, logOut } = useAuth();
+
+    const handleLogout = () => {
+        logOut()
+            .then(() => {
+                Swal.fire({
+                    position: "center",
+                    icon: "success",
+                    title: "Logout successful",
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            })
+            .catch(error => {
+                console.error(error)
+            })
+
+    }
 
     const navItems = <>
         <li><NavLink to="/">Home</NavLink></li>
         <li><NavLink to="/aboutUs">About Us</NavLink></li>
-       
+
     </>
 
     return (
@@ -29,11 +49,20 @@ const Navbar = () => {
             </div>
             <div className="navbar-center hidden lg:flex">
                 <ul className="menu menu-horizontal px-1">
-                   {navItems}
+                    {navItems}
                 </ul>
             </div>
-            <div className="navbar-end">
-                <NavLink to='/login' className="btn border-primary border-2 text-secondary bg-white">Login</NavLink>
+            <div className="navbar-end space-x-2">
+                {
+                    user ?
+                        <button onClick={handleLogout} className="btn border-primary border-2 text-secondary bg-white">Logout</button>
+                        :
+                        <>
+                            <NavLink to='/login' className="btn border-primary border-2 text-secondary bg-white">Login</NavLink>
+
+                            <NavLink to='/register' className="btn border-primary border-2 bg-primary text-white">Register</NavLink>
+                        </>
+                }
             </div>
         </div>
     );

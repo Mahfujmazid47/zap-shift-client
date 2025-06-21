@@ -8,6 +8,8 @@
 - npm install react-fast-marquee
 - npm install aos --save
 - npm install react-hook-form
+- npm install firebase
+- npm install sweetalert2
 - 
 
 ## Expanding the ESLint configuration
