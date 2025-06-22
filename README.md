@@ -10,6 +10,8 @@
 - npm install react-hook-form
 - npm install firebase
 - npm install sweetalert2
+- npm install react-leaflet leaflet react-icons
+- npm install swiper
 - 
 
 ## Expanding the ESLint configuration

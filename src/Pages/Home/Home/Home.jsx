@@ -4,6 +4,8 @@ import OurServices from '../Services/Services';
 import ClientMarquee from '../ClientMarquee/ClientMarquee';
 import FeatureHighlights from '../FeatureHighlights/FeatureHighlights';
 import BeMerchant from '../BeMerchant/BeMerchant';
+import HowItWorks from '../HowItWorks/HowItWorks';
+import CustomerReview from '../CustomerReview/CustomerReview';
 
 const Home = () => {
     return (
@@ -14,6 +16,10 @@ const Home = () => {
                 data-aos-duration="1000">
                 <Banner></Banner>
             </main>
+
+            <section>
+                <HowItWorks></HowItWorks>
+            </section>
 
             <section>
                 <OurServices></OurServices>
@@ -29,6 +35,10 @@ const Home = () => {
 
             <section>
                 <BeMerchant></BeMerchant>
+            </section>
+
+            <section>
+                <CustomerReview></CustomerReview>
             </section>
 
         </div>

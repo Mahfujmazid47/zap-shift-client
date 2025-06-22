@@ -8,25 +8,40 @@ const Navbar = () => {
     const { user, logOut } = useAuth();
 
     const handleLogout = () => {
-        logOut()
-            .then(() => {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You have to login again then!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, Logout!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+
+                logOut()
+                    .then(() => {
+
+                    })
+                    .catch(error => {
+                        console.error(error)
+                    })
+
                 Swal.fire({
-                    position: "center",
-                    icon: "success",
-                    title: "Logout successful",
-                    showConfirmButton: false,
-                    timer: 1500
+                    title: "Logged Out!",
+                    text: "Logout Successfully.",
+                    icon: "success"
                 });
-            })
-            .catch(error => {
-                console.error(error)
-            })
+            }
+        });
+
 
     }
 
     const navItems = <>
-        <li><NavLink to="/">Home</NavLink></li>
-        <li><NavLink to="/aboutUs">About Us</NavLink></li>
+        <li><NavLink className='rounded-full lg:mr-2 mb-1' to="/">Home</NavLink></li>
+        <li><NavLink className='rounded-full lg:mr-2 mb-1' to="/coverage">Coverage</NavLink></li>
+        <li><NavLink className='rounded-full lg:mr-2 mb-1' to="/aboutUs">About Us</NavLink></li>
 
     </>
 
@@ -43,9 +58,9 @@ const Navbar = () => {
                         {navItems}
                     </ul>
                 </div>
-                <a className="">
+                <div>
                     <ProFastLogo></ProFastLogo>
-                </a>
+                </div>
             </div>
             <div className="navbar-center hidden lg:flex">
                 <ul className="menu menu-horizontal px-1">
@@ -55,12 +70,12 @@ const Navbar = () => {
             <div className="navbar-end space-x-2">
                 {
                     user ?
-                        <button onClick={handleLogout} className="btn border-primary border-2 text-secondary bg-white">Logout</button>
+                        <button onClick={handleLogout} className="btn border-primary border-2 p-2 md:p-4 text-secondary bg-white">Logout</button>
                         :
                         <>
-                            <NavLink to='/login' className="btn border-primary border-2 text-secondary bg-white">Login</NavLink>
+                            <NavLink to='/login' className="btn border-primary p-2 md:p-4 border-2 text-secondary bg-white">Sign In</NavLink>
 
-                            <NavLink to='/register' className="btn border-primary border-2 bg-primary text-white">Register</NavLink>
+                            <NavLink to='/register' className="btn border-primary p-2 md:p-4 border-2 bg-primary text-white">Sign Up</NavLink>
                         </>
                 }
             </div>

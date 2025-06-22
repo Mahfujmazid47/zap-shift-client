@@ -18,5 +18,5 @@
 }
 
 a.active {
-  @apply bg-primary
+  @apply bg-primary transition-all scale-110
 }

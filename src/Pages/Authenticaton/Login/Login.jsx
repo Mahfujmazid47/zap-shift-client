@@ -1,17 +1,36 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 import GoogleLogin from './GoogleLogin';
+import useAuth from '../../../Hooks/useAuth';
+import Swal from 'sweetalert2';
 
 const Login = () => {
+    const { signIn } = useAuth();
+    const navigate = useNavigate();
 
     const { register,
-         handleSubmit,
-         formState : {errors}
-         } = useForm();
+        handleSubmit,
+        formState: { errors }
+    } = useForm();
 
     const onSubmit = data => {
-        console.log(data)
+        console.log(data);
+        const { email, password } = data;
+        signIn(email, password)
+            .then(result => {
+                console.log(result.user);
+                if (result.user) {
+                    Swal.fire({
+                        position: "center",
+                        icon: "success",
+                        title: "Login Successful",
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                    navigate('/')
+                }
+            })
     }
 
     return (
@@ -26,9 +45,9 @@ const Login = () => {
                 <div className="">
                     <form onSubmit={handleSubmit(onSubmit)} className="fieldset">
                         <label className="label">Email</label>
-                        <input type="email" {...register('email', {required : true})} className="input md:w-3/4" placeholder="Email" />
+                        <input type="email" {...register('email', { required: true })} className="input md:w-3/4" placeholder="Email" />
                         {
-                            errors.email?.type === 'required'&& <p className='text-red-500'>Email is required.</p>
+                            errors.email?.type === 'required' && <p className='text-red-500'>Email is required.</p>
                         }
 
                         <label className="label">Password</label>
@@ -37,12 +56,12 @@ const Login = () => {
                             minLength: 6
                         })}
                             className="input md:w-3/4" placeholder="Password" />
-                            {
-                                errors.password?.type === 'required' && <p className='text-red-500'>Password is required.</p>
-                            }
-                            {
-                                errors.password?.type === 'minLength' && <p className='text-red-500'>Password Must have 6 characters</p>
-                            }
+                        {
+                            errors.password?.type === 'required' && <p className='text-red-500'>Password is required.</p>
+                        }
+                        {
+                            errors.password?.type === 'minLength' && <p className='text-red-500'>Password Must have 6 characters</p>
+                        }
 
                         <div><a className="link link-hover">Forgot password?</a></div>
 

@@ -4,7 +4,8 @@ import location_merchant from '../../../assets/location-merchant.png';
 const BeMerchant = () => {
     return (
         <div className='pb-12 px-2 md:px-8 lg:px-16'>
-            <div data-aos='flip-up' className="bg-no-repeat h-fit bg-[url('assets/be-a-merchant-bg.png')] rounded-2xl bg-secondary py-2 md:py-10  px-2 md:px-12 lg:px-18">
+            <div data-aos="zoom-out"
+     data-aos-duration="2000"  className="bg-no-repeat h-fit bg-[url('assets/be-a-merchant-bg.png')] rounded-2xl bg-secondary py-2 md:py-10  px-2 md:px-12 lg:px-18">
                 <div className="hero-content flex-col lg:flex-row-reverse ">
                     <img
                         src={location_merchant}
