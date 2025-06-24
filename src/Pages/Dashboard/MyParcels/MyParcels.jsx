@@ -4,11 +4,14 @@ import { useQuery } from '@tanstack/react-query';
 import useAxiosSecure from '../../../Hooks/useAxiosSecure';
 import ParcelTable from './ParcelTable';
 import Swal from 'sweetalert2';
+import { useNavigate } from 'react-router';
 
 const MyParcels = () => {
 
     const { user } = useAuth();
     const axiosSecure = useAxiosSecure();
+    const navigate = useNavigate();
+
     const { data: parcels = [], refetch } = useQuery({
         queryKey: ['my-parcels', user.email],
         queryFn: async () => {
@@ -18,12 +21,12 @@ const MyParcels = () => {
     });
     console.log(parcels);
 
-    const handleView = (parcel) => {
-        console.log("Viewing", parcel);
+    const handleView = (id) => {
+        navigate(`/dashboard/payment/${id}`)
     };
 
-    const handlePay = (parcel) => {
-        console.log("Redirecting to payment...", parcel);
+    const handlePay = (id) => {
+        navigate(`/dashboard/payment/${id}`)
     };
 
     const handleDelete = (id) => {

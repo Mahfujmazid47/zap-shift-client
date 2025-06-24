@@ -15,7 +15,8 @@
 - npm install react-hook-form react-toastify
 - npm install axios
 - npm i @tanstack/react-query
-- date-fns
+- npm install date-fns
+- npm install --save @stripe/react-stripe-js @stripe/stripe-js
 - 
 
 ## Expanding the ESLint configuration
