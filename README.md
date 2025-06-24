@@ -12,6 +12,10 @@
 - npm install sweetalert2
 - npm install react-leaflet leaflet react-icons
 - npm install swiper
+- npm install react-hook-form react-toastify
+- npm install axios
+- npm i @tanstack/react-query
+- date-fns
 - 
 
 ## Expanding the ESLint configuration

@@ -2,12 +2,13 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import img from '../../../assets/image-upload-icon.png'
 import useAuth from '../../../Hooks/useAuth';
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 import GoogleRegister from './GoogleRegister';
 import Swal from 'sweetalert2';
 
 const Register = () => {
     const { createUser } = useAuth();
+    const navigate = useNavigate();
 
     const { register,
         handleSubmit,
@@ -27,6 +28,7 @@ const Register = () => {
                     showConfirmButton: false,
                     timer: 1500
                 });
+                navigate('/')
             })
             .catch(error => {
                 console.error(error);

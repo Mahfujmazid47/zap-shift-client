@@ -41,6 +41,13 @@ const Navbar = () => {
     const navItems = <>
         <li><NavLink className='rounded-full lg:mr-2 mb-1' to="/">Home</NavLink></li>
         <li><NavLink className='rounded-full lg:mr-2 mb-1' to="/coverage">Coverage</NavLink></li>
+        <li><NavLink className='rounded-full lg:mr-2 mb-1' to="/sendParcel">Add Parcel</NavLink></li>
+        
+        {
+            user && <>
+            <li><NavLink className='rounded-full lg:mr-2 mb-1' to="/dashboard">Dashboard</NavLink></li>
+            </>
+        }
         <li><NavLink className='rounded-full lg:mr-2 mb-1' to="/aboutUs">About Us</NavLink></li>
 
     </>

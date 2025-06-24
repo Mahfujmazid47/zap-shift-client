@@ -1,25 +1,30 @@
 import React from 'react';
 import useAuth from '../../../Hooks/useAuth';
 import Swal from 'sweetalert2';
+import { useLocation, useNavigate } from 'react-router';
 
 const GoogleLogin = () => {
-    const {googleSignIn} = useAuth();
+    const { googleSignIn } = useAuth();
+    const navigate = useNavigate();
+    const location = useLocation();
+    const from = location?.state.from || '/';
 
     const handleGoogleLogIn = () => {
         googleSignIn()
-        .then(result => {
-            console.log(result.user);
-            Swal.fire({
-                                position: "center",
-                                icon: "success",
-                                title: "Google Login Successful",
-                                showConfirmButton: false,
-                                timer: 1500
-                            });
-        })
-        .catch(error => {
-            console.error(error)
-        })
+            .then(result => {
+                console.log(result.user);
+                Swal.fire({
+                    position: "center",
+                    icon: "success",
+                    title: "Google Login Successful",
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+                navigate(from)
+            })
+            .catch(error => {
+                console.error(error)
+            })
     }
 
     return (

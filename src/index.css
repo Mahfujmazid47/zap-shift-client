@@ -18,5 +18,13 @@
 }
 
 a.active {
-  @apply bg-primary transition-all scale-110
+  @apply bg-primary transition-all scale-105
+}
+
+.swiper-pagination-bullet {
+  background-color: #94C6CB !important;
+  opacity: 1;
+}
+.swiper-pagination-bullet-active {
+  background-color: #03464D !important;
 }
