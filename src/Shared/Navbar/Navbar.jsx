@@ -42,10 +42,10 @@ const Navbar = () => {
         <li><NavLink className='rounded-full lg:mr-2 mb-1' to="/">Home</NavLink></li>
         <li><NavLink className='rounded-full lg:mr-2 mb-1' to="/coverage">Coverage</NavLink></li>
         <li><NavLink className='rounded-full lg:mr-2 mb-1' to="/sendParcel">Add Parcel</NavLink></li>
-        
+
         {
             user && <>
-            <li><NavLink className='rounded-full lg:mr-2 mb-1' to="/dashboard">Dashboard</NavLink></li>
+                <li><NavLink className='rounded-full lg:mr-2 mb-1' to="/dashboard">Dashboard</NavLink></li>
             </>
         }
         <li><NavLink className='rounded-full lg:mr-2 mb-1' to="/aboutUs">About Us</NavLink></li>
@@ -77,7 +77,12 @@ const Navbar = () => {
             <div className="navbar-end space-x-2">
                 {
                     user ?
-                        <button onClick={handleLogout} className="btn border-primary border-2 p-2 md:p-4 text-secondary bg-white">Logout</button>
+                        <>
+                            <img src={user.photoURL} alt="profile pic"
+                                className='w-12 h-12 rounded-full text-gray-400 hover:text-gray-600 transition duration-200'
+                            />
+                            <button onClick={handleLogout} className="btn border-primary border-2 p-2 md:p-4 text-secondary bg-white">Logout</button>
+                        </>
                         :
                         <>
                             <NavLink to='/login' className="btn border-primary p-2 md:p-4 border-2 text-secondary bg-white">Sign In</NavLink>

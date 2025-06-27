@@ -1,16 +1,19 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import useAuth from '../../../Hooks/useAuth';
 import { useQuery } from '@tanstack/react-query';
 import useAxiosSecure from '../../../Hooks/useAxiosSecure';
 import ParcelTable from './ParcelTable';
 import Swal from 'sweetalert2';
-import { useNavigate } from 'react-router';
+import { useNavigate, useNavigation } from 'react-router';
+import Loading from '../../../Shared/Loading/Loading';
 
 const MyParcels = () => {
 
     const { user } = useAuth();
     const axiosSecure = useAxiosSecure();
     const navigate = useNavigate();
+    const navigation = useNavigation();
+    console.log(navigation.state)
 
     const { data: parcels = [], refetch } = useQuery({
         queryKey: ['my-parcels', user.email],
@@ -19,7 +22,7 @@ const MyParcels = () => {
             return res.data;
         }
     });
-    console.log(parcels);
+    // console.log(parcels);
 
     const handleView = (id) => {
         navigate(`/dashboard/payment/${id}`)
@@ -64,12 +67,18 @@ const MyParcels = () => {
         <div className="p-4">
             <h2 className="text-2xl font-bold mb-4">All Parcels</h2>
             <div>
-                <ParcelTable
-                    parcels={parcels}
-                    onView={handleView}
-                    onPay={handlePay}
-                    onDelete={handleDelete}
-                ></ParcelTable>
+                <Suspense fallback={<Loading />}>
+                    {
+                        navigation.state === 'loading' ? <Loading />
+                            :
+                            <ParcelTable
+                                parcels={parcels}
+                                onView={handleView}
+                                onPay={handlePay}
+                                onDelete={handleDelete}
+                            ></ParcelTable>
+                    }
+                </Suspense>
             </div>
         </div>
     );

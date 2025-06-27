@@ -2,29 +2,47 @@ import React from 'react';
 import useAuth from '../../../Hooks/useAuth';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router';
+import useAxios from '../../../Hooks/useAxios';
 
 const GoogleRegister = () => {
 
-    const {googleSignIn} = useAuth();
+    const { googleSignIn } = useAuth();
     const navigate = useNavigate();
+    const axiosInstance = useAxios();
 
     const handleGoogleLogIn = () => {
         googleSignIn()
-        .then(result => {
-            console.log(result.user);
-            Swal.fire({
-                                position: "center",
-                                icon: "success",
-                                title: "Google Registration Successful",
-                                showConfirmButton: false,
-                                timer: 1500
-                            });
-                            navigate('/')
+            .then( async(result) => {
+                console.log(result.user);
+                const user = result.user;
 
-        })
-        .catch(error => {
-            console.error(error)
-        })
+                //update user info in database 
+                const userInfo = {
+                    email: user.email,
+                    role: 'user',// default role
+                    created_at: new Date().toISOString(),
+                    last_log_in: new Date().toISOString(),
+                };
+
+                const userRes = await axiosInstance.post('/users', userInfo);
+                console.log;(userRes.data)
+                if(userRes.data.insertedId){
+                    Swal.fire({
+                        position: "center",
+                        icon: "success",
+                        title: "Google Registration Successful",
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                    navigate('/')
+
+                }
+                
+
+            })
+            .catch(error => {
+                console.error(error)
+            })
     }
 
 

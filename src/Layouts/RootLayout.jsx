@@ -6,7 +6,6 @@ import Loading from '../Shared/Loading/Loading';
 
 const RootLayout = () => {
     const navigation = useNavigation();
-    // console.log(navigation.state)
     return (
         <>
             <nav>

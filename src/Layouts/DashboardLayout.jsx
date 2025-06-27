@@ -1,9 +1,11 @@
 import React, { Suspense } from 'react';
 import Loading from '../Shared/Loading/Loading';
-import { NavLink, Outlet } from 'react-router';
+import { NavLink, Outlet, useNavigation } from 'react-router';
 import ProFastLogo from '../Shared/ProFastLogo/ProFastLogo';
+import { FaHome, FaBoxOpen, FaHistory, FaSearchLocation, FaUserEdit } from "react-icons/fa";
 
 const DashboardLayout = () => {
+    const navigation = useNavigation();
     return (
         <div>
             <div className="drawer lg:drawer-open">
@@ -35,7 +37,7 @@ const DashboardLayout = () => {
                     {/* Page content here */}
 
                     <Suspense fallback={<Loading />}>
-                        <Outlet></Outlet>
+                        {navigation.state === 'loading' ? <Loading /> : <Outlet></Outlet>}
                     </Suspense>
 
                     {/* Page content here */}
@@ -43,13 +45,36 @@ const DashboardLayout = () => {
                 </div>
                 <div className="drawer-side">
                     <label htmlFor="my-drawer-2" aria-label="close sidebar" className="drawer-overlay"></label>
-                    <ul className="menu bg-base-200 text-base-content min-h-full w-40 p-4">
+                    <ul className="menu bg-base-200 text-base-content min-h-full w-50 p-4">
                         {/* Sidebar content here */}
                         <ProFastLogo></ProFastLogo>
 
-                        <li><NavLink to='/'>Home</NavLink></li>
-                        <li><NavLink to='/dashboard/myParcels'>My Parcels</NavLink></li>
-                        
+                        <li>
+                            <NavLink to='/' className="flex items-center gap-2">
+                                <FaHome /> Home
+                            </NavLink>
+                        </li>
+                        <li>
+                            <NavLink to='/dashboard/myParcels' className="flex items-center gap-2">
+                                <FaBoxOpen /> My Parcels
+                            </NavLink>
+                        </li>
+                        <li>
+                            <NavLink to='/dashboard/paymentHistory' className="flex items-center gap-2">
+                                <FaHistory /> Payment History
+                            </NavLink>
+                        </li>
+                        <li>
+                            <NavLink to='/dashboard/trackParcel' className="flex items-center gap-2">
+                                <FaSearchLocation /> Track Parcel
+                            </NavLink>
+                        </li>
+                        <li>
+                            <NavLink to='/dashboard/updateProfile' className="flex items-center gap-2">
+                                <FaUserEdit /> Update Profile
+                            </NavLink>
+                        </li>
+
                     </ul>
                 </div>
             </div>

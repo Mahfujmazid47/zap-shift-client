@@ -4,7 +4,7 @@ import { FaEye, FaTrash, FaMoneyCheckAlt } from 'react-icons/fa';
 const ParcelTable = ({ parcels, onView, onPay, onDelete }) => {
 
     const formatDate = (iso) => {
-        return new Date(iso).toLocaleString(); 
+        return new Date(iso).toLocaleString();
     }
 
     return (
@@ -60,7 +60,7 @@ const ParcelTable = ({ parcels, onView, onPay, onDelete }) => {
                                     <FaEye />
                                 </button>
 
-                                {parcel.payment_status === 'unpaid' && (
+                                {parcel.payment_status === 'unpaid' ? (
                                     <button
                                         onClick={() => onPay(parcel._id)}
                                         className="btn btn-xs btn-outline btn-success"
@@ -68,7 +68,15 @@ const ParcelTable = ({ parcels, onView, onPay, onDelete }) => {
                                     >
                                         <FaMoneyCheckAlt />
                                     </button>
-                                )}
+                                )
+                                    :
+                                    <button disabled
+                                        className="btn btn-xs btn-outline btn-success"
+                                        title="Paid"
+                                    >
+                                        <FaMoneyCheckAlt />
+                                    </button>
+                            }
 
                                 <button
                                     onClick={() => onDelete(parcel._id)}

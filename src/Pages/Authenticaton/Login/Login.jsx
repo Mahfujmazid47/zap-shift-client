@@ -9,7 +9,7 @@ const Login = () => {
     const { signIn } = useAuth();
     const navigate = useNavigate();
     const location = useLocation();
-    const from = location?.state.from || '/';
+    const from = location?.state || '/';
 
     const { register,
         handleSubmit,

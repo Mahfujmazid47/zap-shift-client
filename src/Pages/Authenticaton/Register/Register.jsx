@@ -1,14 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import img from '../../../assets/image-upload-icon.png'
 import useAuth from '../../../Hooks/useAuth';
 import { Link, useNavigate } from 'react-router';
 import GoogleRegister from './GoogleRegister';
 import Swal from 'sweetalert2';
+import axios from 'axios';
+import useAxios from '../../../Hooks/useAxios';
 
 const Register = () => {
-    const { createUser } = useAuth();
+    const { createUser, userProfileUpdate, user } = useAuth();
     const navigate = useNavigate();
+    const axiosInstance = useAxios();
+    const [profilePic, setProfilePic] = useState(null);
 
     const { register,
         handleSubmit,
@@ -19,20 +23,57 @@ const Register = () => {
         console.log(data);
         const { email, password } = data;
         createUser(email, password)
-            .then(result => {
+            .then(async (result) => {
                 console.log(result.user);
-                Swal.fire({
-                    position: "center",
-                    icon: "success",
-                    title: "Registration Successful",
-                    showConfirmButton: false,
-                    timer: 1500
-                });
-                navigate('/')
+
+                // update user info in firebase
+                const profileInfo = {
+                    displayName: data.name,
+                    photoURL: profilePic,
+                }
+                userProfileUpdate(profileInfo)
+                    .then(() => {
+                        console.log('Name and Pic uploaded')
+                    })
+                    .catch(error =>
+                        console.log(error)
+                    )
+
+                //update user info in database 
+                const userInfo = {
+                    email: user.email,
+                    role: 'user',// default role
+                    created_at: new Date().toISOString(),
+                    last_log_in: new Date().toISOString(),
+                };
+                const userResponse = await axiosInstance.post('/users', userInfo);
+                console.log(userResponse.data);
+                if (userResponse.data.insertedId) {
+                    Swal.fire({
+                        position: "center",
+                        icon: "success",
+                        title: "Registration Successful",
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                    navigate('/');
+                }
             })
             .catch(error => {
                 console.error(error);
             })
+    }
+
+    const handleImageChange = async (e) => {
+        const image = e.target.files[0];
+        console.log(image)
+        const formData = new FormData();
+        formData.append('image', image)
+
+        const imageUploadUrl = `https://api.imgbb.com/1/upload?&key=${import.meta.env.VITE_image_upload_key}`;
+        const res = await axios.post(imageUploadUrl, formData);
+
+        setProfilePic(res.data.data.url);
     }
 
     return (
@@ -45,16 +86,38 @@ const Register = () => {
                 </p>
             </div>
             <div>
-                <img src={img} alt="" />
+
             </div>
             <div className="">
                 <div className="">
                     <form onSubmit={handleSubmit(onSubmit)} className="fieldset">
 
-                        <label className="label">Name</label>
-                        <input type="name" {...register('name', { required: true })} className="input md:w-3/4" placeholder="Name" />
                         {
-                            errors.name?.type === 'required' && <p className='text-red-500'>Name is required</p>
+                            profilePic ?
+                                <img src={profilePic} alt="profile pic"
+                                    className='w-15 h-15 rounded-full text-gray-400 hover:text-gray-600 transition duration-200'
+                                />
+                                :
+                                <>
+                                    <label htmlFor="imageUpload" className="cursor-pointer inline-block">
+                                        <img src={img} alt="" />
+                                        <p className='text-slate-600'>Upload Your photo</p>
+                                    </label>
+                                    <input
+                                        type="file"
+                                        id="imageUpload"
+                                        accept="image/*"
+                                        className="hidden"
+                                        onChange={handleImageChange}
+                                    />
+                                </>
+                        }
+
+
+                        <label className="label">Name</label>
+                        <input type="name" {...register('name', { required: true })} className="input md:w-3/4" placeholder="Your Name" />
+                        {
+                            errors.name?.type === 'required' && <p className='text-red-500'>name is required</p>
                         }
 
                         <label className="label">Email</label>

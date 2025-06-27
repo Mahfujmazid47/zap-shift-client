@@ -1,9 +1,10 @@
 import React, { Suspense } from 'react';
-import { Outlet } from 'react-router';
+import { Outlet, useNavigation } from 'react-router';
 import authImage from '../assets/authImage.png';
 import ProFastLogo from '../Shared/ProFastLogo/ProFastLogo';
 
 const AuthLayout = () => {
+    const navigation = useNavigation();
     return (
         <div>
 
@@ -15,7 +16,7 @@ const AuthLayout = () => {
                         </div>
                         <div className='min-h-screen flex justify-center items-center md:py-10'>
                             <Suspense fallback={<p>Loading ...</p>}>
-                                <Outlet></Outlet>
+                                {navigation.state === 'loading' ? <Loading /> : <Outlet></Outlet>}
                             </Suspense>
                         </div>
                     </div>
