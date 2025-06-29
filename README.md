@@ -17,6 +17,8 @@
 - npm i @tanstack/react-query
 - npm install date-fns
 - npm install --save @stripe/react-stripe-js @stripe/stripe-js
+- npm install motion
+- npm install @headlessui/react
 - 
 
 ## Expanding the ESLint configuration

@@ -1,7 +1,7 @@
 import React from 'react';
 import { FaEye, FaTrash, FaMoneyCheckAlt } from 'react-icons/fa';
 
-const ParcelTable = ({ parcels, onView, onPay, onDelete }) => {
+const ParcelTable = ({ parcels = [], onView, onPay, onDelete }) => {
 
     const formatDate = (iso) => {
         return new Date(iso).toLocaleString();

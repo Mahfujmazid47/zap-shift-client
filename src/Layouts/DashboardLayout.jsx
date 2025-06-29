@@ -1,8 +1,8 @@
 import React, { Suspense } from 'react';
 import Loading from '../Shared/Loading/Loading';
-import { NavLink, Outlet, useNavigation } from 'react-router';
+import { Link, NavLink, Outlet, useNavigation } from 'react-router';
 import ProFastLogo from '../Shared/ProFastLogo/ProFastLogo';
-import { FaHome, FaBoxOpen, FaHistory, FaSearchLocation, FaUserEdit } from "react-icons/fa";
+import { FaHome, FaBoxOpen, FaHistory, FaSearchLocation, FaUserEdit, FaUsers, FaUserClock, FaUserTimes } from "react-icons/fa";
 
 const DashboardLayout = () => {
     const navigation = useNavigation();
@@ -73,6 +73,22 @@ const DashboardLayout = () => {
                             <NavLink to='/dashboard/updateProfile' className="flex items-center gap-2">
                                 <FaUserEdit /> Update Profile
                             </NavLink>
+                        </li>
+
+                        <li>
+                            <Link to='/dashboard/activeRiders' className="flex items-center gap-2">
+                                <FaUsers className="text-green-600" /> Active Riders
+                            </Link>
+                        </li>
+                        <li>
+                            <Link to='/dashboard/pendingRiders' className="flex items-center gap-2">
+                                <FaUserClock className="text-yellow-500" /> Pending Riders
+                            </Link>
+                        </li>
+                        <li>
+                            <Link to="/dashboard/rejectedRiders" className="flex items-center gap-2">
+                                <FaUserTimes className='text-red-500' /> Rejected Riders
+                            </Link>
                         </li>
 
                     </ul>

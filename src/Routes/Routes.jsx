@@ -13,6 +13,10 @@ import DashboardLayout from "../Layouts/DashboardLayout";
 import MyParcels from "../Pages/Dashboard/MyParcels/MyParcels";
 import Payment from "../Pages/Dashboard/Payment/Payment";
 import PaymentHistory from "../Pages/Dashboard/PaymentHistory/PaymentHistory";
+import BeARider from "../Pages/BeARider/BeARider";
+import PendingRiders from "../Pages/Dashboard/PendingRiders/PendingRiders";
+import ActiveRiders from "../Pages/Dashboard/ActiveRiders/ActiveRiders";
+import RejectedRiders from "../Pages/Dashboard/RejectedRiders/RejectedRiders";
 
 export const router = createBrowserRouter([
   {
@@ -32,6 +36,14 @@ export const router = createBrowserRouter([
         element: (
           <PrivateRoutes>
             <SendParcel></SendParcel>
+          </PrivateRoutes>
+        )
+      },
+      {
+        path: '/beARider',
+        element: (
+          <PrivateRoutes>
+            <BeARider></BeARider>
           </PrivateRoutes>
         )
       }
@@ -70,7 +82,19 @@ export const router = createBrowserRouter([
       {
         path: '/dashboard/paymentHistory',
         Component: PaymentHistory
-      }
+      },
+      {
+        path: '/dashboard/pendingRiders',
+        Component: PendingRiders
+      },
+      {
+        path: '/dashboard/activeRiders',
+        Component: ActiveRiders
+      },
+      {
+        path: '/dashboard/rejectedRiders',
+        Component: RejectedRiders
+      },
     ]
   }
 ]);

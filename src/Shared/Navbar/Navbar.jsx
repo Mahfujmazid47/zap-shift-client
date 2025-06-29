@@ -49,6 +49,7 @@ const Navbar = () => {
             </>
         }
         <li><NavLink className='rounded-full lg:mr-2 mb-1' to="/aboutUs">About Us</NavLink></li>
+        <li><NavLink className='rounded-full lg:mr-2 mb-1' to="/beARider">Be a Rider</NavLink></li>
 
     </>
 
