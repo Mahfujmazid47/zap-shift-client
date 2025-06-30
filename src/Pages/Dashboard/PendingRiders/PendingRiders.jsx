@@ -23,7 +23,7 @@ const PendingRiders = () => {
         return <Loading />
     };
 
-    const handleDecision = async (id, decisionType) => {
+    const handleDecision = async (id, decisionType,email) => {
         const actionText = decisionType === 'active' ? 'Active' : 'Reject';
         const result = await Swal.fire({
             title: `Are you sure?`,
@@ -39,7 +39,8 @@ const PendingRiders = () => {
         if (result.isConfirmed) {
             try {
                 const res = await axiosSecure.patch(`/riders/status/${id}`, {
-                    status: decisionType
+                    status: decisionType,
+                    email
                 });
 
 
@@ -119,11 +120,12 @@ const PendingRiders = () => {
                                 <p><strong>Region:</strong> {selectedRider.region}</p>
                                 <p><strong>District:</strong> {selectedRider.district}</p>
                                 <p><strong>Contact:</strong> {selectedRider.contact}</p>
+                                <p><strong>Status:</strong> {selectedRider.status}</p>
 
                                 <div className="flex justify-end gap-2 mt-4">
                                     <button
                                         className="btn btn-success flex items-center gap-1"
-                                        onClick={() => handleDecision(selectedRider._id, 'active')}
+                                        onClick={() => handleDecision(selectedRider._id, 'active',(selectedRider.email))}
                                     >
                                         <FaCheckCircle /> Approve
                                     </button>

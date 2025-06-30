@@ -17,6 +17,7 @@ import BeARider from "../Pages/BeARider/BeARider";
 import PendingRiders from "../Pages/Dashboard/PendingRiders/PendingRiders";
 import ActiveRiders from "../Pages/Dashboard/ActiveRiders/ActiveRiders";
 import RejectedRiders from "../Pages/Dashboard/RejectedRiders/RejectedRiders";
+import ManageUsers from "../Pages/Dashboard/ManageUsers/ManageUsers";
 
 export const router = createBrowserRouter([
   {
@@ -94,6 +95,10 @@ export const router = createBrowserRouter([
       {
         path: '/dashboard/rejectedRiders',
         Component: RejectedRiders
+      },
+      {
+        path: '/dashboard/manageUsers',
+        Component: ManageUsers
       },
     ]
   }

@@ -2,7 +2,7 @@ import React, { Suspense } from 'react';
 import Loading from '../Shared/Loading/Loading';
 import { Link, NavLink, Outlet, useNavigation } from 'react-router';
 import ProFastLogo from '../Shared/ProFastLogo/ProFastLogo';
-import { FaHome, FaBoxOpen, FaHistory, FaSearchLocation, FaUserEdit, FaUsers, FaUserClock, FaUserTimes } from "react-icons/fa";
+import { FaHome, FaBoxOpen, FaHistory, FaSearchLocation, FaUserEdit, FaUsers, FaUserClock, FaUserTimes, FaUserShield } from "react-icons/fa";
 
 const DashboardLayout = () => {
     const navigation = useNavigation();
@@ -88,6 +88,12 @@ const DashboardLayout = () => {
                         <li>
                             <Link to="/dashboard/rejectedRiders" className="flex items-center gap-2">
                                 <FaUserTimes className='text-red-500' /> Rejected Riders
+                            </Link>
+                        </li>
+
+                        <li>
+                            <Link to="/dashboard/manageUsers" className="flex items-center gap-2">
+                                <FaUserShield /> Manage Users
                             </Link>
                         </li>
 

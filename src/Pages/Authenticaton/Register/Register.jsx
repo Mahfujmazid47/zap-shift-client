@@ -9,7 +9,7 @@ import axios from 'axios';
 import useAxios from '../../../Hooks/useAxios';
 
 const Register = () => {
-    const { createUser, userProfileUpdate, user } = useAuth();
+    const { createUser, userProfileUpdate } = useAuth();
     const navigate = useNavigate();
     const axiosInstance = useAxios();
     const [profilePic, setProfilePic] = useState(null);
@@ -41,7 +41,7 @@ const Register = () => {
 
                 //update user info in database 
                 const userInfo = {
-                    email: user.email,
+                    email: email,
                     role: 'user',// default role
                     created_at: new Date().toISOString(),
                     last_log_in: new Date().toISOString(),
