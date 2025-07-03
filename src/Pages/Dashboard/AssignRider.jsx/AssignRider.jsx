@@ -5,9 +5,11 @@ import { Dialog } from "@headlessui/react";
 import Loading from "../../../Shared/Loading/Loading";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
+import useAuth from "../../../Hooks/useAuth";
 
 const AssignRider = () => {
   const axiosSecure = useAxiosSecure();
+  const {user} = useAuth();
   const [selectedParcel, setSelectedParcel] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -16,7 +18,7 @@ const AssignRider = () => {
     queryKey: ["assignable-parcels"],
     queryFn: async () => {
       const res = await axiosSecure.get(
-        `/parcels?payment_status=paid&delivery_status=not_collected`
+        `/parcels?email=${user.email}&payment_status=paid&delivery_status=not_collected`
       );
       return res.data;
     },
@@ -38,17 +40,21 @@ const AssignRider = () => {
     queryKey: ["riders", selectedParcel?.deliveryServiceCenter],
     enabled: !!selectedParcel,
     queryFn: async () => {
-      const res = await axiosSecure.get("/riders/approved-riders");
+      const res = await axiosSecure.get("/riders/active-riders");
       return res.data.filter(
-        (rider) => rider.region === selectedParcel?.deliveryServiceCenter
+        (rider) =>  rider.district === selectedParcel?.deliveryServiceCenter
       );
     },
   });
 
-  const handleAssign = async (riderId) => {
+console.log("Parcel Delivery Service Center:", selectedParcel?.deliveryServiceCenter);
+console.log("Matched Riders:", riders);
+
+  const handleAssign = async (riderId,rider_name) => {
     try {
       const res = await axiosSecure.patch(`/parcels/assign/${selectedParcel._id}`, {
         assignedRiderId: riderId,
+        rider_name,
       });
 
       if (res.data.modifiedCount > 0) {
@@ -90,7 +96,7 @@ const AssignRider = () => {
                 <td>{parcel.deliveryServiceCenter}</td>
                 <td>
                   <button
-                    className="btn btn-sm btn-success flex items-center gap-1"
+                    className="btn btn-sm  btn-success flex items-center gap-1"
                     onClick={() => openModal(parcel)}
                   >
                     <FaUserPlus /> Assign Rider
@@ -119,8 +125,8 @@ const AssignRider = () => {
                       <p>{rider.contact}</p>
                     </div>
                     <button
-                      className="btn btn-sm btn-primary"
-                      onClick={() => handleAssign(rider._id)}
+                      className="btn btn-sm btn-primary text-black"
+                      onClick={() => handleAssign(rider._id,rider.name)}
                     >
                       Assign
                     </button>
