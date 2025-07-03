@@ -1,11 +1,12 @@
 import React from 'react';
-import { NavLink } from 'react-router';
+import { NavLink, useNavigate } from 'react-router';
 import ProFastLogo from '../ProFastLogo/ProFastLogo';
 import useAuth from '../../Hooks/useAuth';
 import Swal from 'sweetalert2';
 
 const Navbar = () => {
     const { user, logOut } = useAuth();
+    const navigate = useNavigate();
 
     const handleLogout = () => {
         Swal.fire({
@@ -21,7 +22,7 @@ const Navbar = () => {
 
                 logOut()
                     .then(() => {
-
+                        navigate('/');
                     })
                     .catch(error => {
                         console.error(error)

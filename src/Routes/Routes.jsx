@@ -18,6 +18,9 @@ import PendingRiders from "../Pages/Dashboard/PendingRiders/PendingRiders";
 import ActiveRiders from "../Pages/Dashboard/ActiveRiders/ActiveRiders";
 import RejectedRiders from "../Pages/Dashboard/RejectedRiders/RejectedRiders";
 import ManageUsers from "../Pages/Dashboard/ManageUsers/ManageUsers";
+import Forbidden from "../Shared/Forbidden/Forbidden";
+import AdminRoutes from "./AdminRoutes";
+import AssignRider from "../Pages/Dashboard/AssignRider.jsx/AssignRider";
 
 export const router = createBrowserRouter([
   {
@@ -31,6 +34,10 @@ export const router = createBrowserRouter([
       {
         path: '/coverage',
         Component: Coverage,
+      },
+      {
+        path: '/forbidden',
+        Component: Forbidden,
       },
       {
         path: '/sendParcel',
@@ -65,7 +72,7 @@ export const router = createBrowserRouter([
     ]
   },
   {
-    path:'/dashboard',
+    path: '/dashboard',
     element: (
       <PrivateRoutes>
         <DashboardLayout></DashboardLayout>
@@ -86,19 +93,43 @@ export const router = createBrowserRouter([
       },
       {
         path: '/dashboard/pendingRiders',
-        Component: PendingRiders
+        element: (
+          <PrivateRoutes>
+            <PendingRiders></PendingRiders>
+          </PrivateRoutes>
+        )
       },
       {
         path: '/dashboard/activeRiders',
-        Component: ActiveRiders
+        element: (
+          <AdminRoutes>
+            <ActiveRiders></ActiveRiders>
+          </AdminRoutes>
+        )
       },
       {
         path: '/dashboard/rejectedRiders',
-        Component: RejectedRiders
+        element: (
+          <AdminRoutes>
+            <RejectedRiders></RejectedRiders>
+          </AdminRoutes>
+        )
       },
       {
         path: '/dashboard/manageUsers',
-        Component: ManageUsers
+        element: (
+          <AdminRoutes>
+            <ManageUsers></ManageUsers>
+          </AdminRoutes>
+        )
+      },
+      {
+        path: '/dashboard/assign-riders',
+        element: (
+          <AdminRoutes>
+            <AssignRider />
+          </AdminRoutes>
+        )
       },
     ]
   }

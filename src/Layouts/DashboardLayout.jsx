@@ -2,10 +2,12 @@ import React, { Suspense } from 'react';
 import Loading from '../Shared/Loading/Loading';
 import { Link, NavLink, Outlet, useNavigation } from 'react-router';
 import ProFastLogo from '../Shared/ProFastLogo/ProFastLogo';
-import { FaHome, FaBoxOpen, FaHistory, FaSearchLocation, FaUserEdit, FaUsers, FaUserClock, FaUserTimes, FaUserShield } from "react-icons/fa";
+import { FaHome, FaBoxOpen, FaHistory, FaSearchLocation, FaUserEdit, FaUsers, FaUserClock, FaUserTimes, FaUserShield, FaMotorcycle } from "react-icons/fa";
+import useUserRole from '../Hooks/useUserRole';
 
 const DashboardLayout = () => {
     const navigation = useNavigation();
+    const { role, isRoleLoading } = useUserRole();
     return (
         <div>
             <div className="drawer lg:drawer-open">
@@ -75,27 +77,39 @@ const DashboardLayout = () => {
                             </NavLink>
                         </li>
 
-                        <li>
-                            <Link to='/dashboard/activeRiders' className="flex items-center gap-2">
-                                <FaUsers className="text-green-600" /> Active Riders
-                            </Link>
-                        </li>
-                        <li>
-                            <Link to='/dashboard/pendingRiders' className="flex items-center gap-2">
-                                <FaUserClock className="text-yellow-500" /> Pending Riders
-                            </Link>
-                        </li>
-                        <li>
-                            <Link to="/dashboard/rejectedRiders" className="flex items-center gap-2">
-                                <FaUserTimes className='text-red-500' /> Rejected Riders
-                            </Link>
-                        </li>
+                        {/* private links */}
+                        {!isRoleLoading && role === 'admin' &&
+                            <>
+                                <li>
+                                    <Link to="/dashboard/assign-riders" className="flex items-center gap-2">
+                                        <FaMotorcycle /> Assign Riders
+                                    </Link>
+                                </li>
 
-                        <li>
-                            <Link to="/dashboard/manageUsers" className="flex items-center gap-2">
-                                <FaUserShield /> Manage Users
-                            </Link>
-                        </li>
+                                <li>
+                                    <Link to='/dashboard/activeRiders' className="flex items-center gap-2">
+                                        <FaUsers className="text-green-600" /> Active Riders
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link to='/dashboard/pendingRiders' className="flex items-center gap-2">
+                                        <FaUserClock className="text-yellow-500" /> Pending Riders
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link to="/dashboard/rejectedRiders" className="flex items-center gap-2">
+                                        <FaUserTimes className='text-red-500' /> Rejected Riders
+                                    </Link>
+                                </li>
+
+                                <li>
+                                    <Link to="/dashboard/manageUsers" className="flex items-center gap-2">
+                                        <FaUserShield /> Manage Users
+                                    </Link>
+                                </li>
+
+                            </>
+                        }
 
                     </ul>
                 </div>

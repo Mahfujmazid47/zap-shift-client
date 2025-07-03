@@ -4,36 +4,56 @@ import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import Loading from "../../../Shared/Loading/Loading";
 import Swal from "sweetalert2";
 import { FaUserShield, FaSearch } from "react-icons/fa";
-import useAuth from "../../../Hooks/useAuth";
 
 const ManageUsers = () => {
-    const { user } = useAuth();
     const axiosSecure = useAxiosSecure();
     const [searchTerm, setSearchTerm] = useState("");
     const [filteredUsers, setFilteredUsers] = useState([]);
 
+    // const { data: users = [], isLoading, refetch } = useQuery({
+    //     queryKey: ["all-users", user.email],
+    //     queryFn: async () => {
+    //         const res = await axiosSecure.get(`/users/search?email=${user.email}`);
+    //         setFilteredUsers(res.data);
+    //         return res.data;
+    //     },
+    // });
+
     const { data: users = [], isLoading, refetch } = useQuery({
-        queryKey: ["users", user.email],
+        queryKey: ["all-users"],
         queryFn: async () => {
-            const res = await axiosSecure.get(`/users/search?email=${user.email}`);
+            const res = await axiosSecure.get('/users');
             setFilteredUsers(res.data);
             return res.data;
         },
     });
 
-    const handleSearch = (e) => {
-        const value = e.target.value.toLowerCase();
-        setSearchTerm(value);
+    // const handleSearch = (e) => {
+    //     const value = e.target.value.toLowerCase();
+    //     setSearchTerm(value);
 
-        const filtered = users.filter(
-            (user) =>
-                user.name?.toLowerCase().includes(value) ||
-                user.district?.toLowerCase().includes(value) ||
-                user.region?.toLowerCase().includes(value)
-        );
+    //     const filtered = users.filter(
+    //         (user) =>
+    //             user.name?.toLowerCase().includes(value) ||
+    //             user.district?.toLowerCase().includes(value) ||
+    //             user.region?.toLowerCase().includes(value)
+    //     );
 
-        setFilteredUsers(filtered);
-    };
+    //     setFilteredUsers(filtered);
+    // };
+
+    const handleSearch = async (e) => {
+  const value = e.target.value.toLowerCase();
+  setSearchTerm(value);
+
+  if (value === "") {
+    setFilteredUsers(users); // show all if input is empty
+  } else {
+    // server-side search for better result
+    const res = await axiosSecure.get(`/users/search?query=${value}`);
+    setFilteredUsers(res.data);
+  }
+};
 
     const handleRoleChange = async (id, currentRole) => {
         const targetRole = currentRole === 'admin' ? 'user' : 'admin';
@@ -53,7 +73,7 @@ const ManageUsers = () => {
                     refetch();
                 }
             } catch (err) {
-                Swal.fire("Error", "Role change failed", "error");
+                Swal.fire("Error", "Role change failed", err);
             }
         }
     };
@@ -73,7 +93,7 @@ const ManageUsers = () => {
                     placeholder="Search by name, district, or region"
                     className="input input-bordered w-full max-w-sm"
                 />
-                <FaSearch className="text-xl" />
+                <FaSearch className="text-xl btn btn-primary" />
             </div>
 
             {filteredUsers.length === 0 ? (
@@ -86,8 +106,9 @@ const ManageUsers = () => {
                                 <th>#</th>
                                 <th>Name</th>
                                 <th>Email</th>
-                                <th>Region</th>
-                                <th>District</th>
+                                {/* <th>Region</th>
+                                <th>District</th> */}
+                                <th>created_at</th>
                                 <th>Role</th>
                                 <th>Action</th>
                             </tr>
@@ -98,8 +119,9 @@ const ManageUsers = () => {
                                     <td>{index + 1}</td>
                                     <td>{user.name}</td>
                                     <td>{user.email}</td>
-                                    <td>{user.region}</td>
-                                    <td>{user.district}</td>
+                                    <td>{new Date(user.created_at).toLocaleDateString()}</td>
+                                    {/* <td>{user.region}</td>
+                                    <td>{user.district}</td> */}
                                     <td>{user.role || "user"}</td>
                                     <td>
                                         <button
